@@ -1,0 +1,35 @@
+# Deployment Checklist for kelalgateway.et
+
+## Files to Upload to httpdocs
+
+1. index.html (main redirect file)
+2. welcome.html (landing page)
+3. PhoneRegistration.html (step 1)
+4. Register.html (step 2)
+5. ProfileSetup.html (step 3)
+6. RegistrationSuccess.html (success page)
+7. test-supabase.html (database test)
+8. .htaccess (server configuration)
+9. robots.txt (search engine instructions)
+10. sitemap.xml (site structure for search engines)
+11. css/styles.css (stylesheet)
+
+## Server Configuration
+
+1. Ensure HTTPS is enabled in your hosting control panel
+2. Check that the domain DNS is properly configured
+3. Verify that the .htaccess file is being processed (AllowOverride All should be set)
+4. Make sure PHP is enabled if your hosting requires it
+
+## Common Issues
+
+1. "Site can't be reached" - DNS issue, check domain configuration in PLESK
+2. "Not Secure" - SSL certificate is missing, enable HTTPS in PLESK
+3. Redirect not working - Check .htaccess permissions (644) and ensure mod_rewrite is enabled
+4. Database connection failing - Check Supabase credentials and network connectivity
+
+## Testing Steps
+
+1. Visit https://kelalgateway.et/ - should redirect to welcome.html
+2. Click "Test Database Connection" - verify Supabase connection works
+3. Complete the registration flow - check data appears in Supabase
