@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+    <div
+      class="w-full max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden"
+    >
+      <div class="bg-primary text-primary-foreground p-6 rounded-t-xl">
+        <h1 class="text-center text-2xl font-bold">Register</h1>
+      </div>
+      <div class="p-6">
+        <div class="w-full bg-background py-4">
+          <div class="flex justify-between items-center mb-2">
+            <div class="flex flex-col items-center">
+              <div
+                class="flex items-center justify-center w-8 h-8 rounded-full bg-primary/80 text-primary-foreground"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-check"
+                >
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+              </div>
+              <span class="text-xs mt-1 text-muted-foreground">Phone</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <div
+                class="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground"
+              >
+                2
+              </div>
+              <span class="text-xs mt-1 text-foreground font-medium"
+                >Register</span
+              >
+            </div>
+            <div class="flex flex-col items-center">
+              <div
+                class="flex items-center justify-center w-8 h-8 rounded-full bg-muted text-muted-foreground"
+              >
+                3
+              </div>
+              <span class="text-xs mt-1 text-muted-foreground">Profile</span>
+            </div>
+          </div>
+          <div
+            class="relative w-full h-2 bg-muted rounded-full overflow-hidden"
+          >
+            <div
+              class="absolute top-0 left-0 h-full bg-primary transition-all duration-300 ease-in-out"
+              style="width: 33%"
+            ></div>
+          </div>
+        </div>
+
+        <form id="registerForm" class="mt-6 space-y-6">
+          <div class="space-y-2">
+            <label for="firstName" class="text-sm font-medium"
+              >First Name</label
+            >
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              placeholder="Enter your first name"
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              required
+            />
+            <p
+              id="firstNameError"
+              class="text-[0.8rem] font-medium text-destructive hidden"
+            ></p>
+          </div>
+
+          <div class="space-y-2">
+            <label for="lastName" class="text-sm font-medium">Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              placeholder="Enter your last name"
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              required
+            />
+            <p
+              id="lastNameError"
+              class="text-[0.8rem] font-medium text-destructive hidden"
+            ></p>
+          </div>
+
+          <div class="space-y-2">
+            <label for="email" class="text-sm font-medium">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              required
+            />
+            <p
+              id="emailError"
+              class="text-[0.8rem] font-medium text-destructive hidden"
+            ></p>
+          </div>
+
+          <div class="space-y-2">
+            <label for="password" class="text-sm font-medium">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              required
+            />
+            <p
+              id="passwordError"
+              class="text-[0.8rem] font-medium text-destructive hidden"
+            ></p>
+          </div>
+
+          <div class="flex justify-between">
+            <button
+              type="button"
+              id="backButton"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Previous
+            </button>
+            <button
+              type="submit"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script type="module">
+      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.6/+esm";
+
+      // Initialize Supabase client
+      const supabaseUrl = "https://awrunspkmsvswrvphrdd.supabase.co";
+      const supabaseKey =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF3cnVuc3BrbXN2c3dydnBocmRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ3MjM1MDUsImV4cCI6MjA2MDI5OTUwNX0.dVSIE_ML-NYaTqn8RVkIXa-DvF6zXgJ9yHqy-XPq4Qc";
+      const supabase = createClient(supabaseUrl, supabaseKey);
+
+      // Check if we have phone from previous step
+      const phone = localStorage.getItem("registration_phone");
+      if (!phone) {
+        // Redirect back to phone registration if no phone number
+        window.location.href = "PhoneRegistration.html";
+      }
+
+      document
+        .getElementById("backButton")
+        .addEventListener("click", function () {
+          window.location.href = "PhoneRegistration.html";
+        });
+
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const firstName = document.getElementById("firstName").value;
+          const lastName = document.getElementById("lastName").value;
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+
+          // Basic validation
+          let hasError = false;
+
+          if (firstName.length < 2) {
+            document.getElementById("firstNameError").textContent =
+              "First name must be at least 2 characters";
+            document
+              .getElementById("firstNameError")
+              .classList.remove("hidden");
+            hasError = true;
+          } else {
+            document.getElementById("firstNameError").classList.add("hidden");
+          }
+
+          if (lastName.length < 2) {
+            document.getElementById("lastNameError").textContent =
+              "Last name must be at least 2 characters";
+            document.getElementById("lastNameError").classList.remove("hidden");
+            hasError = true;
+          } else {
+            document.getElementById("lastNameError").classList.add("hidden");
+          }
+
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            document.getElementById("emailError").textContent =
+              "Please enter a valid email address";
+            document.getElementById("emailError").classList.remove("hidden");
+            hasError = true;
+          } else {
+            document.getElementById("emailError").classList.add("hidden");
+          }
+
+          if (password.length < 6) {
+            document.getElementById("passwordError").textContent =
+              "Password must be at least 6 characters";
+            document.getElementById("passwordError").classList.remove("hidden");
+            hasError = true;
+          } else {
+            document.getElementById("passwordError").classList.add("hidden");
+          }
+
+          if (hasError) return;
+
+          try {
+            // Sign up the user with Supabase Auth
+            const { data, error } = await supabase.auth.signUp({
+              email,
+              password,
+              options: {
+                data: {
+                  first_name: firstName,
+                  last_name: lastName,
+                  phone: phone,
+                },
+              },
+            });
+
+            if (error) throw error;
+
+            // Store registration data for next step
+            localStorage.setItem("registration_firstName", firstName);
+            localStorage.setItem("registration_lastName", lastName);
+            localStorage.setItem("registration_email", email);
+
+            // Redirect to profile setup
+            window.location.href = "ProfileSetup.html";
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Registration failed: " + (error.message || "Unknown error"));
+          }
+        });
+    </script>
+    <!-- Error handling script removed for production -->
+  </body>
+</html>

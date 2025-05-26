@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supabase Connection Test</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+    <div
+      class="w-full max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden"
+    >
+      <div class="bg-primary text-primary-foreground p-6 rounded-t-xl">
+        <h1 class="text-center text-2xl font-bold">Supabase Connection Test</h1>
+      </div>
+      <div class="p-6">
+        <div id="status" class="mb-6 p-4 bg-muted rounded-md">
+          Testing connection to Supabase...
+        </div>
+
+        <div id="testForm" class="space-y-6">
+          <div class="space-y-2">
+            <label for="testName" class="text-sm font-medium">Test Name</label>
+            <input
+              type="text"
+              id="testName"
+              name="testName"
+              value="Test User"
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            />
+          </div>
+
+          <div class="space-y-2">
+            <label for="testEmail" class="text-sm font-medium"
+              >Test Email</label
+            >
+            <input
+              type="email"
+              id="testEmail"
+              name="testEmail"
+              value="test@example.com"
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            />
+          </div>
+
+          <button
+            id="testButton"
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 w-full"
+          >
+            Run Test
+          </button>
+        </div>
+
+        <div id="results" class="mt-6 space-y-4 hidden">
+          <h2 class="text-lg font-semibold">Test Results:</h2>
+          <pre
+            id="resultData"
+            class="p-4 bg-muted rounded-md overflow-auto text-sm"
+          ></pre>
+        </div>
+
+        <div class="mt-6">
+          <a
+            href="PhoneRegistration.html"
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+          >
+            Go to Registration Form
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.6/+esm";
+
+      // Initialize Supabase client
+      const supabaseUrl = "https://awrunspkmsvswrvphrdd.supabase.co";
+      const supabaseKey =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF3cnVuc3BrbXN2c3dydnBocmRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ3MjM1MDUsImV4cCI6MjA2MDI5OTUwNX0.dVSIE_ML-NYaTqn8RVkIXa-DvF6zXgJ9yHqy-XPq4Qc";
+      const supabase = createClient(supabaseUrl, supabaseKey);
+
+      const statusEl = document.getElementById("status");
+      const resultsEl = document.getElementById("results");
+      const resultDataEl = document.getElementById("resultData");
+
+      // Test connection on page load
+      testConnection();
+
+      // Add event listener to test button
+      document
+        .getElementById("testButton")
+        .addEventListener("click", async () => {
+          const testName = document.getElementById("testName").value;
+          const testEmail = document.getElementById("testEmail").value;
+          await testInsert(testName, testEmail);
+        });
+
+      async function testConnection() {
+        try {
+          const { data, error } = await supabase
+            .from("users")
+            .select("count()")
+            .limit(1);
+
+          if (error) throw error;
+
+          statusEl.textContent = "✅ Successfully connected to Supabase!";
+          statusEl.classList.add("bg-green-100", "text-green-600");
+          statusEl.classList.remove("bg-muted");
+        } catch (error) {
+          statusEl.textContent = `❌ Connection error: ${error.message || error}`;
+          statusEl.classList.add("bg-red-100", "text-red-600");
+          statusEl.classList.remove("bg-muted");
+          console.error("Connection error:", error);
+        }
+      }
+
+      async function testInsert(name, email) {
+        try {
+          statusEl.textContent = "Testing data insertion...";
+          statusEl.classList.remove(
+            "bg-green-100",
+            "text-green-600",
+            "bg-red-100",
+            "text-red-600",
+          );
+          statusEl.classList.add("bg-muted");
+
+          // Split name into first and last name
+          const nameParts = name.split(" ");
+          const firstName = nameParts[0] || "Test";
+          const lastName = nameParts.slice(1).join(" ") || "User";
+
+          // Create test data
+          const testData = {
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            phone: "+1234567890",
+            birthday: new Date().toISOString().split("T")[0],
+            city: "Test City",
+            country: "Test Country",
+            reference_number: `TEST-${Date.now()}`,
+            avatar_url: null,
+          };
+
+          // Insert test data
+          const { data, error } = await supabase
+            .from("users")
+            .insert([testData])
+            .select();
+
+          if (error) throw error;
+
+          // Show success message
+          statusEl.textContent = "✅ Successfully inserted test data!";
+          statusEl.classList.add("bg-green-100", "text-green-600");
+          statusEl.classList.remove("bg-muted");
+
+          // Show results
+          resultsEl.classList.remove("hidden");
+          resultDataEl.textContent = JSON.stringify(data, null, 2);
+        } catch (error) {
+          statusEl.textContent = `❌ Insertion error: ${error.message || error}`;
+          statusEl.classList.add("bg-red-100", "text-red-600");
+          statusEl.classList.remove("bg-muted");
+          console.error("Insertion error:", error);
+
+          // Show error details
+          resultsEl.classList.remove("hidden");
+          resultDataEl.textContent = JSON.stringify(error, null, 2);
+        }
+      }
+    </script>
+  </body>
+</html>
